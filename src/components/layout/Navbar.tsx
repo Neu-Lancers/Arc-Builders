@@ -5,6 +5,7 @@ import { brand, nav, services } from '../../data/site'
 import { cn } from '../../lib/utils'
 import { useTheme } from '../../hooks/hooks'
 import { scrollToTop } from '../ui/Effects'
+import PaletteSwitcher from '../ui/PaletteSwitcher'
 import { useSound } from '../../lib/sound'
 
 export function Logo({ light }: { light?: boolean }) {
@@ -14,7 +15,7 @@ export function Logo({ light }: { light?: boolean }) {
       <span className={cn('grid h-9 w-9 shrink-0 place-items-center rounded-xl', light ? 'bg-cream text-forest' : 'bg-forest text-cream')}>
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M3 20V10l9-7 9 7v10h-6v-6H9v6z" /></svg>
       </span>
-      <span className="h-display text-xl font-semibold tracking-tight md:text-2xl">{brand.name}</span>
+      <span className="h-display whitespace-nowrap text-lg font-semibold tracking-tight sm:text-xl md:text-2xl">{brand.name}</span>
     </Link>
   )
 }
@@ -101,10 +102,11 @@ export default function Navbar() {
             ))}
           </ul>
           <div className="flex items-center gap-1.5">
-            <button aria-label={soundOn ? "Mute click sounds" : "Enable click sounds"} aria-pressed={soundOn} onClick={toggleSound} data-sound="none" className="grid h-10 w-10 place-items-center rounded-full transition hover:bg-white/15">
+            <button aria-label={soundOn ? "Mute click sounds" : "Enable click sounds"} aria-pressed={soundOn} onClick={toggleSound} data-sound="none" className="grid h-9 w-9 place-items-center rounded-full sm:h-10 sm:w-10 transition hover:bg-white/15">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" />{soundOn ? <path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" /> : <path d="M17 9l5 6M22 9l-5 6" />}</svg>
             </button>
-            <button aria-label="Toggle light / dark theme" data-sound="switch" onClick={toggle} className="grid h-10 w-10 place-items-center rounded-full transition hover:bg-white/15">
+            <PaletteSwitcher />
+            <button aria-label="Toggle light / dark theme" data-sound="switch" onClick={toggle} className="grid h-9 w-9 place-items-center rounded-full sm:h-10 sm:w-10 transition hover:bg-white/15">
               {dark ? (
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
               ) : (
@@ -112,7 +114,7 @@ export default function Navbar() {
               )}
             </button>
             <Link to="/contact" className="btn btn-light hidden !py-2.5 sm:inline-flex">Free consultation</Link>
-            <button aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(!open)} className="grid h-10 w-10 place-items-center rounded-full lg:hidden">
+            <button aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(!open)} className="grid h-9 w-9 place-items-center rounded-full sm:h-10 sm:w-10 lg:hidden">
               <span className="relative block h-3 w-5">
                 <span className={cn('absolute left-0 h-0.5 w-5 bg-current transition-all', open ? 'top-[5px] rotate-45' : 'top-0')} />
                 <span className={cn('absolute left-0 h-0.5 w-5 bg-current transition-all', open ? 'top-[5px] -rotate-45' : 'top-[10px]')} />
@@ -149,6 +151,7 @@ export default function Navbar() {
                 <li key={n.to}><NavLink to={n.to} end={n.to === '/'} onClick={same(n.to)} className={({ isActive }) => cn('block py-3 text-base font-semibold', isActive && 'text-gold')}>{n.label}</NavLink></li>
               ))}
             </ul>
+            <div className="mt-4"><PaletteSwitcher variant="row" /></div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <a href={`tel:${brand.phone}`} className="btn btn-light !py-2.5 text-xs">Call us</a>
               <Link to="/contact" className="btn btn-ghost !py-2.5 text-xs">Get a quote</Link>

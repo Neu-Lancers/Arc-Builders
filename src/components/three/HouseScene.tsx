@@ -8,11 +8,18 @@ const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
 const easeOut = (k: number) => 1 - Math.pow(1 - k, 3)
 const prog = (p: number, a: number, b: number) => easeOut(clamp01((p - a) / (b - a)))
 
-/* ---------- palette ---------- */
-const C = {
-  slab: '#c9c0b0', col: '#e3dccf', wall: '#eee5da', roof: '#1d4a35', wood: '#a9835a', darkwood: '#6b4a2f',
-  glass: '#7fb6a0', sofa: '#2c5f46', gold: '#c0955a', ground: '#0f2218', path: '#d6cdbb', leaf: '#2f7a52', leaf2: '#3f9467',
-}
+/* ---------- palette: derived from the live site theme ---------- */
+export type SceneTheme = { forest: string; forestDeep: string; ink: string; gold: string; cream: string }
+const mix = (x: string, y: string, t: number) => '#' + new THREE.Color(x).lerp(new THREE.Color(y), t).getHexString()
+const build = (t: SceneTheme) => ({
+  slab: mix(t.cream, '#000000', 0.2), col: mix(t.cream, '#000000', 0.07), wall: t.cream, roof: t.forest,
+  wood: '#a9835a', darkwood: '#6b4a2f', glass: mix(t.forest, '#ffffff', 0.5), sofa: mix(t.forest, '#ffffff', 0.14),
+  gold: t.gold, ground: mix(t.ink, t.forest, 0.28), path: mix(t.cream, '#000000', 0.14), leaf: '#2f7a52', leaf2: '#3f9467',
+  ink: t.ink, warm: mix(t.ink, '#3a2a18', 0.55), city: mix(t.ink, t.forest, 0.4), grid: mix(t.ink, t.forest, 0.6), window: mix(t.forest, '#000000', 0.4),
+})
+type Colors = ReturnType<typeof build>
+const CCtx = createContext<Colors>(build({ forest: '#1d4a35', forestDeep: '#0d2519', ink: '#0b1a13', gold: '#c0955a', cream: '#eee5da' }))
+const useC = () => useContext(CCtx)
 
 /** Box that rises from its base between progress a → b. */
 function Rise({ a, b, x = 0, y = 0, z = 0, w, h, d, color, rough = 0.7, emissive, ei = 0, metal = 0 }: {
@@ -50,6 +57,7 @@ function Pop({ a, b, position, children }: { a: number; b: number; position?: [n
 }
 
 function Glass({ a, b, x, y, z, w, h, d = 0.06 }: { a: number; b: number; x: number; y: number; z: number; w: number; h: number; d?: number }) {
+  const C = useC()
   const m = useRef<THREE.MeshStandardMaterial>(null)
   const P = useContext(PCtx)
   useFrame(() => { if (m.current) m.current.opacity = 0.32 * prog(P.current, a, b) })
@@ -62,6 +70,7 @@ function Glass({ a, b, x, y, z, w, h, d = 0.06 }: { a: number; b: number; x: num
 }
 
 function Tree({ x, z, s = 1, a }: { x: number; z: number; s?: number; a: number }) {
+  const C = useC()
   return (
     <Pop a={a} b={a + 0.06} position={[x, 0, z]}>
       <group scale={s}>
@@ -84,6 +93,7 @@ function Lamp({ x, z, a }: { x: number; z: number; a: number }) {
 
 /* ---------- the house ---------- */
 function House() {
+  const C = useC()
   const FL = 0.3 // finished floor level
   const H1 = 3.2
   const cols = useMemo(() => {
@@ -120,8 +130,8 @@ function House() {
       {/* upper floor */}
       <Rise a={0.36} b={0.45} x={0} y={FL + H1 + 0.28} z={-0.5} w={10.4} h={2.9} d={7} color={C.wall} />
       {/* window strips (emissive at night) */}
-      <Rise a={0.44} b={0.5} x={0} y={FL + H1 + 1.2} z={3.02} w={8.4} h={1.2} d={0.06} color="#1b3a2c" emissive="#ffd9a0" ei={1.1} />
-      <Rise a={0.44} b={0.5} x={5.22} y={FL + H1 + 1.2} z={-0.5} w={0.06} h={1.2} d={4.6} color="#1b3a2c" emissive="#ffd9a0" ei={1.1} />
+      <Rise a={0.44} b={0.5} x={0} y={FL + H1 + 1.2} z={3.02} w={8.4} h={1.2} d={0.06} color={C.window} emissive="#ffd9a0" ei={1.1} />
+      <Rise a={0.44} b={0.5} x={5.22} y={FL + H1 + 1.2} z={-0.5} w={0.06} h={1.2} d={4.6} color={C.window} emissive="#ffd9a0" ei={1.1} />
       {/* balcony */}
       <Rise a={0.46} b={0.5} x={0} y={FL + H1 + 0.28} z={4.2} w={9} h={0.18} d={2.4} color={C.slab} />
       <Glass a={0.48} b={0.54} x={0} y={FL + H1 + 0.46} z={5.38} w={9} h={0.9} />
@@ -146,6 +156,7 @@ function House() {
 }
 
 function Interior() {
+  const C = useC()
   const a = 0.5, b = 0.62
   return (
     <group>
@@ -210,11 +221,12 @@ const camCurve = new THREE.CatmullRomCurve3(camPts, false, 'centripetal')
 const tgtCurve = new THREE.CatmullRomCurve3(tgtPts, false, 'centripetal')
 
 function Rig({ target, shared }: { target: MutableRefObject<number>; shared: MutableRefObject<number> }) {
+  const C = useC()
   const { camera, scene, size } = useThree()
   const look = useMemo(() => new THREE.Vector3(), [])
   const bg = useMemo(() => new THREE.Color(), [])
-  const c0 = useMemo(() => new THREE.Color('#0b1a13'), [])
-  const c1 = useMemo(() => new THREE.Color('#2a2118'), [])
+  const c0 = useMemo(() => new THREE.Color(C.ink), [C.ink])
+  const c1 = useMemo(() => new THREE.Color(C.warm), [C.warm])
   const lightIn = useRef<THREE.PointLight>(null)
   const lightIn2 = useRef<THREE.PointLight>(null)
   const sun = useRef<THREE.DirectionalLight>(null)
@@ -238,9 +250,9 @@ function Rig({ target, shared }: { target: MutableRefObject<number>; shared: Mut
   })
   return (
     <>
-      <fog attach="fog" args={['#0b1a13', 30, 90]} />
+      <fog attach="fog" args={[C.ink, 30, 90]} />
       <ambientLight intensity={0.55} />
-      <hemisphereLight args={['#bcd6c6', '#1a2a20', 0.6]} />
+      <hemisphereLight args={[C.wall, C.ink, 0.6]} />
       <directionalLight ref={sun} position={[14, 22, 16]} intensity={1.6} color="#fff0d6" />
       <pointLight ref={lightIn} position={[-1, 2.9, 0]} color="#ffead0" distance={14} decay={1.6} intensity={0} />
       <pointLight ref={lightIn2} position={[3, 2.7, -2]} color="#ffead0" distance={12} decay={1.6} intensity={0} />
@@ -249,6 +261,7 @@ function Rig({ target, shared }: { target: MutableRefObject<number>; shared: Mut
 }
 
 function CityContext() {
+  const C = useC()
   const blocks = useMemo(() => {
     let seed = 7; const r = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
     return Array.from({ length: 46 }, () => {
@@ -261,7 +274,7 @@ function CityContext() {
       {blocks.map((b, i) => (
         <mesh key={i} position={[b.x, b.h / 2, b.z]}>
           <boxGeometry args={[b.w, b.h, b.dd]} />
-          <meshStandardMaterial color="#16301f" roughness={0.9} emissive={b.win ? '#c0955a' : '#000'} emissiveIntensity={b.win ? 0.1 : 0} />
+          <meshStandardMaterial color={C.city} roughness={0.9} emissive={b.win ? C.gold : '#000000'} emissiveIntensity={b.win ? 0.1 : 0} />
         </mesh>
       ))}
     </group>
@@ -269,6 +282,7 @@ function CityContext() {
 }
 
 function Ground() {
+  const C = useC()
   const m = useRef<THREE.GridHelper>(null)
   const P = useContext(PCtx)
   useFrame(() => {
@@ -281,21 +295,24 @@ function Ground() {
         <planeGeometry args={[200, 200]} />
         <meshStandardMaterial color={C.ground} roughness={1} />
       </mesh>
-      <gridHelper ref={m} args={[60, 60, '#c0955a', '#2f5a45']} position={[0, 0.01, 0]} material-transparent material-opacity={0.5} />
+      <gridHelper key={C.gold + C.grid} ref={m} args={[60, 60, C.gold, C.grid]} position={[0, 0.01, 0]} material-transparent material-opacity={0.5} />
     </>
   )
 }
 
-export default function HouseScene({ progress, active }: { progress: MutableRefObject<number>; active: boolean }) {
+export default function HouseScene({ progress, active, theme }: { progress: MutableRefObject<number>; active: boolean; theme: SceneTheme }) {
   const shared = useRef(0)
+  const colors = useMemo(() => build(theme), [theme.forest, theme.forestDeep, theme.ink, theme.gold, theme.cream]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <Canvas frameloop={active ? 'always' : 'never'} dpr={[1, 1.25]} camera={{ fov: 50, near: 0.1, far: 200, position: [20, 24, 24] }} gl={{ antialias: true, powerPreference: 'high-performance' }}>
+      <CCtx.Provider value={colors}>
       <PCtx.Provider value={shared}>
         <Rig target={progress} shared={shared} />
         <Ground />
         <CityContext />
         <House />
       </PCtx.Provider>
+      </CCtx.Provider>
     </Canvas>
   )
 }

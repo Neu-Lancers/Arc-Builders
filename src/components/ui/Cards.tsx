@@ -55,15 +55,15 @@ export function SpotlightCard({ children, className, dark }: { children: ReactNo
       <div className="sheen" />
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{ background: `radial-gradient(340px circle at var(--sx) var(--sy), ${dark ? 'rgba(192,149,90,.28)' : 'rgba(29,74,53,.14)'}, transparent 60%)` }}
+        style={{ background: `radial-gradient(340px circle at var(--sx) var(--sy), ${dark ? 'color-mix(in srgb, var(--color-gold) 28%, transparent)' : 'color-mix(in srgb, var(--color-forest) 14%, transparent)'}, transparent 60%)` }}
       />
-      <div className="relative">{children}</div>
+      <div className="relative h-full">{children}</div>
     </div>
   )
 }
 
 /** Rotating conic star border. */
-export function StarBorder({ children, className, color = '#c0955a' }: { children: ReactNode; className?: string; color?: string }) {
+export function StarBorder({ children, className, color = 'var(--color-gold)' }: { children: ReactNode; className?: string; color?: string }) {
   return (
     <span className={cn('relative inline-block overflow-hidden rounded-full p-px', className)}>
       <span className="absolute -inset-[200%] animate-[star-spin_4s_linear_infinite]" style={{ background: `conic-gradient(from 0deg, transparent 0 60%, ${color} 88%, transparent 100%)` }} />

@@ -66,7 +66,7 @@ export const services = [
     intro: 'From foundation to final finish, we deliver homes where structural integrity meets quiet luxury. Every villa is engineered, detailed and handed over by a single accountable team.',
     features: ['Custom villas & bungalows', 'Gated community development', 'Row houses & duplexes', 'Structural & MEP engineering', 'Vastu & climate-responsive planning', '10-year structural warranty'],
     process: [['Brief & Site Study', 'We study your plot, lifestyle and budget.'], ['Design & Approvals', 'Concept, drawings and statutory sign-off.'], ['Build', 'Phased construction with weekly reporting.'], ['Handover', 'Snag-free inspection and warranty pack.']],
-    stats: [['120+', 'Homes delivered'], ['18 mo', 'Avg. build time'], ['0', 'Delay disputes']],
+    stats: [['120+', 'Homes delivered'], ['18 mo', 'Avg. build time'], ['0', 'Delay disputes'], ['10 yr', 'Structural warranty']],
   },
   {
     slug: 'commercial-construction', title: 'Commercial Construction', icon: '02',
@@ -75,7 +75,7 @@ export const services = [
     intro: 'We build workplaces and commercial landmarks that move fast without cutting corners — with BIM-led coordination and rigorous schedule control.',
     features: ['Corporate offices & campuses', 'Retail & showrooms', 'Mixed-use towers', 'Warehouses & industrial sheds', 'BIM coordination & clash detection', 'Fast-track delivery models'],
     process: [['Feasibility', 'Cost, schedule and risk modelling.'], ['Preconstruction', 'BIM, procurement and phasing.'], ['Construction', 'Safety-first, schedule-driven execution.'], ['Commissioning', 'Testing, certification and handover.']],
-    stats: [['3.2M', 'Sq. ft built'], ['96%', 'On-time projects'], ['40+', 'Corporate clients']],
+    stats: [['3.2M', 'Sq. ft built'], ['96%', 'On-time projects'], ['40+', 'Corporate clients'], ['0', 'Lost-time incidents']],
   },
   {
     slug: 'interior-design', title: 'Interior Design & Fit-out', icon: '03',
@@ -84,7 +84,7 @@ export const services = [
     intro: 'Our in-house design studio and joinery workshop create interiors that feel collected, calm and unmistakably yours — with one team accountable for design and delivery.',
     features: ['Full-home turnkey interiors', 'Bespoke furniture & joinery', 'Lighting & automation design', 'Modular kitchens & wardrobes', 'Material & art curation', 'Hospitality & boutique fit-outs'],
     process: [['Discover', 'Mood, materials and spatial planning.'], ['Design', '3D visuals, walkthroughs and specification.'], ['Craft', 'Workshop production and site installation.'], ['Style', 'Final styling and white-glove handover.']],
-    stats: [['300+', 'Interiors styled'], ['45 days', 'Typical fit-out'], ['4.9★', 'Client rating']],
+    stats: [['300+', 'Interiors styled'], ['45 days', 'Typical fit-out'], ['4.9★', 'Client rating'], ['100%', 'In-house joinery']],
   },
   {
     slug: 'renovation-remodeling', title: 'Renovation & Remodeling', icon: '04',
@@ -93,7 +93,7 @@ export const services = [
     intro: 'Renovation is about respect — for the structure, the neighbours and your routine. We plan every phase to keep disruption low and surprises lower.',
     features: ['Structural strengthening', 'Layout reconfiguration', 'Kitchen & bath remodels', 'Facade & exterior refresh', 'Waterproofing & retrofit', 'Heritage restoration'],
     process: [['Survey', 'Condition survey and scope definition.'], ['Plan', 'Phased plan to protect your routine.'], ['Transform', 'Careful demolition and rebuild.'], ['Finish', 'Quality audit and clean handover.']],
-    stats: [['200+', 'Renovations'], ['30%', 'Avg. value uplift'], ['14 days', 'Quick refresh']],
+    stats: [['200+', 'Renovations'], ['30%', 'Avg. value uplift'], ['14 days', 'Quick refresh'], ['2 yr', 'Finishing warranty']],
   },
   {
     slug: 'architecture-planning', title: 'Architecture & Planning', icon: '05',
@@ -102,7 +102,7 @@ export const services = [
     intro: 'Our architects design with the build in mind, so what is drawn is what is delivered — beautiful, buildable and budget-aware from the first sketch.',
     features: ['Concept & schematic design', '3D visualisation & VR walkthroughs', 'Statutory approvals', 'Master planning', 'Sustainable design & green rating', 'Value engineering'],
     process: [['Sketch', 'Ideas, massing and options.'], ['Develop', 'Detailed drawings and specs.'], ['Approve', 'Authority submissions handled.'], ['Deliver', 'Design-to-build coordination.']],
-    stats: [['150+', 'Projects designed'], ['12', 'Architects'], ['100%', 'Approvals secured']],
+    stats: [['150+', 'Projects designed'], ['12', 'Architects'], ['100%', 'Approvals secured'], ['3D', 'Walkthrough on every design']],
   },
   {
     slug: 'project-management', title: 'Project Management', icon: '06',
@@ -111,7 +111,7 @@ export const services = [
     intro: 'Building with another contractor? Our PMC team protects your interests with rigorous scheduling, audit and quality governance — with a live dashboard you can trust.',
     features: ['Schedule & cost control', 'Quality & safety audits', 'Vendor & contractor management', 'Live progress dashboards', 'Risk management', 'Third-party inspections'],
     process: [['Baseline', 'Scope, budget and schedule baseline.'], ['Govern', 'Weekly reviews and audits.'], ['Control', 'Change & cost management.'], ['Close', 'Handover and documentation.']],
-    stats: [['₹900Cr', 'Value managed'], ['−12%', 'Avg. cost saved'], ['24/7', 'Live tracking']],
+    stats: [['₹900Cr', 'Value managed'], ['−12%', 'Avg. cost saved'], ['24/7', 'Live tracking'], ['100%', 'Audit coverage']],
   },
 ]
 

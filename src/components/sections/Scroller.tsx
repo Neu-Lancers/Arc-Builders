@@ -96,7 +96,7 @@ function StackCard({ s, i, n, p }: { s: StackItem; i: number; n: number; p: Moti
   const dim = useTransform(p, [from, 1], [0, i === n - 1 ? 0 : 0.5])
   return (
     <div className="sticky" style={{ top: `calc(84px + ${i * 22}px)`, marginBottom: i === n - 1 ? 0 : '14vh', zIndex: i + 1 }}>
-      <motion.div style={{ scale }} className="relative origin-top overflow-hidden rounded-2xl bg-forest text-cream shadow-[0_-12px_40px_-18px_rgba(0,0,0,.5)] will-change-transform dark:bg-[#12291e] dark:ring-1 dark:ring-white/10">
+      <motion.div style={{ scale }} className="relative origin-top overflow-hidden rounded-2xl bg-forest text-cream shadow-[0_-12px_40px_-18px_rgba(0,0,0,.5)] will-change-transform dark:bg-[color-mix(in_srgb,var(--color-forest)_65%,black)] dark:ring-1 dark:ring-white/10">
         <div className="grid md:min-h-[46vh] md:grid-cols-2">
           <div className="flex flex-col justify-between p-6 md:p-9">
             <div>
@@ -275,7 +275,7 @@ export function OrbitImages({ images, center }: { images: string[]; center: Reac
         const group = Array.from({ length: rg.count }, () => images[k++ % images.length])
         return (
           <div key={ri} className="absolute inset-0">
-            <div className="absolute left-1/2 top-1/2 rounded-full border border-dashed border-gold/40 shadow-[0_0_24px_rgba(192,149,90,.25),inset_0_0_24px_rgba(192,149,90,.12)]"
+            <div className="absolute left-1/2 top-1/2 rounded-full border border-dashed border-gold/40 shadow-[0_0_24px_color-mix(in_srgb,var(--color-gold)_25%,transparent),inset_0_0_24px_color-mix(in_srgb,var(--color-gold)_12%,transparent)]"
               style={{ width: `${rg.r * 2}cqw`, height: `${rg.r * 2}cqw`, transform: 'translate(-50%,-50%)' }} />
             <div className="absolute inset-0" style={{ animation: `star-spin ${rg.dur}s linear infinite ${rg.rev ? 'reverse' : ''}` }}>
               {group.map((src, i) => {
@@ -285,7 +285,7 @@ export function OrbitImages({ images, center }: { images: string[]; center: Reac
                     <div style={{ transform: `rotate(${-a}deg)` }}>
                       <div className="-translate-x-1/2 -translate-y-1/2" style={{ width: `${rg.size}cqw`, height: `${rg.size}cqw` }}>
                         <div className="h-full w-full" style={{ animation: `star-spin ${rg.dur}s linear infinite ${rg.rev ? '' : 'reverse'}` }}>
-                          <div className="group sheen-host relative h-full w-full overflow-hidden rounded-full border-[3px] border-page shadow-[0_0_0_2px_rgba(192,149,90,.7),0_10px_26px_-8px_rgba(0,0,0,.5)] transition-transform hover:scale-110">
+                          <div className="group sheen-host relative h-full w-full overflow-hidden rounded-full border-[3px] border-page shadow-[0_0_0_2px_color-mix(in_srgb,var(--color-gold)_70%,transparent),0_10px_26px_-8px_rgba(0,0,0,.5)] transition-transform hover:scale-110">
                             <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
                             <div className="sheen" />
                           </div>
@@ -298,14 +298,14 @@ export function OrbitImages({ images, center }: { images: string[]; center: Reac
             </div>
             {/* comet dot riding the ring */}
             <div className="absolute inset-0" style={{ animation: `star-spin ${rg.dur * 0.6}s linear infinite ${rg.rev ? '' : 'reverse'}` }}>
-              <span className="absolute left-1/2 rounded-full bg-gold shadow-[0_0_12px_4px_rgba(232,197,143,.8)]" style={{ top: `${50 - rg.r}cqw`, width: '1.4cqw', height: '1.4cqw', transform: 'translate(-50%,-50%)' }} />
+              <span className="absolute left-1/2 rounded-full bg-gold shadow-[0_0_12px_4px_color-mix(in_srgb,var(--color-gold)_80%,transparent)]" style={{ top: `${50 - rg.r}cqw`, width: '1.4cqw', height: '1.4cqw', transform: 'translate(-50%,-50%)' }} />
             </div>
           </div>
         )
       })}
       {/* centre badge: spinning glow border + pulse */}
       <div className="absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center" style={{ width: '27cqw', height: '27cqw' }}>
-        <span className="absolute -inset-[3px] rounded-full [animation:star-spin_5s_linear_infinite]" style={{ background: 'conic-gradient(from 0deg, transparent 0 55%, #c0955a 80%, #fff3d6 92%, transparent)' }} />
+        <span className="absolute -inset-[3px] rounded-full [animation:star-spin_5s_linear_infinite]" style={{ background: 'conic-gradient(from 0deg, transparent 0 55%, var(--color-gold) 80%, color-mix(in srgb, var(--color-gold) 40%, white) 92%, transparent)' }} />
         <div className="relative grid h-full w-full place-items-center rounded-full bg-forest p-2 text-center text-cream [animation:pulse-glow_3s_ease-in-out_infinite]">{center}</div>
       </div>
     </div>

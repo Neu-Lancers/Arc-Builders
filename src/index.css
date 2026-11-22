@@ -1,7 +1,12 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- BRAND PALETTE (fixed) ---------- */
+/* ============================================================
+   COLOUR SYSTEM
+   1. Brand tokens   (--color-*)  -> change per palette via  html[data-palette="..."]
+   2. Surface tokens (--page ...) -> change per palette AND per light/dark mode
+   Palettes: classic (default) · navy · burgundy · sage
+   ============================================================ */
 @theme {
   --color-cream: #eee5da;
   --color-cream-2: #e4d8c9;
@@ -13,25 +18,49 @@
   --font-sans: "Manrope", system-ui, sans-serif;
 }
 
-/* ---------- SEMANTIC TOKENS (flip in dark mode) ---------- */
+/* classic — cream #eee5da + forest #1d4a35 (default) */
 :root {
-  --page: #eee5da;
-  --page-2: #e5d9ca;
-  --fg: #0b1a13;
-  --accent: #1d4a35;
-  --line: rgba(29, 74, 53, 0.16);
-  --glass-bg: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.9);
+  --page: #eee5da; --page-2: #e5d9ca; --fg: #0b1a13; --accent: #1d4a35;
+  --line: rgba(29, 74, 53, 0.16); --glass-bg: rgba(255, 255, 255, 0.78); --glass-border: rgba(255, 255, 255, 0.9);
 }
 .dark {
-  --page: #0a140f;
-  --page-2: #0f1c15;
-  --fg: #eee5da;
-  --accent: #86c8a3;
-  --line: rgba(238, 229, 218, 0.14);
-  --glass-bg: rgba(18, 36, 27, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --page: #0a140f; --page-2: #0f1c15; --fg: #eee5da; --accent: #86c8a3;
+  --line: rgba(238, 229, 218, 0.14); --glass-bg: rgba(18, 36, 27, 0.8); --glass-border: rgba(255, 255, 255, 0.1);
 }
+
+/* navy — #131d38 + #adc7e9 */
+html[data-palette="navy"] {
+  --color-cream: #e8f0fa; --color-cream-2: #cfdcf0; --color-forest: #131d38; --color-forest-deep: #0a1226; --color-ink: #060b19; --color-gold: #adc7e9;
+  --page: #e1ebf7; --page-2: #d0def0; --fg: #0a1226; --accent: #131d38;
+  --line: rgba(19, 29, 56, 0.16); --glass-bg: rgba(255, 255, 255, 0.75); --glass-border: rgba(255, 255, 255, 0.9);
+}
+html.dark[data-palette="navy"] {
+  --page: #080d1c; --page-2: #0e1530; --fg: #e8f0fa; --accent: #adc7e9;
+  --line: rgba(173, 199, 233, 0.16); --glass-bg: rgba(19, 29, 56, 0.8); --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* burgundy — #790b13 + #fff0dc */
+html[data-palette="burgundy"] {
+  --color-cream: #fff0dc; --color-cream-2: #f2dcc0; --color-forest: #790b13; --color-forest-deep: #4a070c; --color-ink: #1f0507; --color-gold: #f0c49a;
+  --page: #fbecd6; --page-2: #f1dcc0; --fg: #2a070b; --accent: #790b13;
+  --line: rgba(121, 11, 19, 0.18); --glass-bg: rgba(255, 255, 255, 0.7); --glass-border: rgba(255, 255, 255, 0.9);
+}
+html.dark[data-palette="burgundy"] {
+  --page: #170507; --page-2: #240a0d; --fg: #fff0dc; --accent: #f2b8a2;
+  --line: rgba(255, 240, 220, 0.14); --glass-bg: rgba(60, 10, 16, 0.8); --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* sage — #e5e8ce + #789575 */
+html[data-palette="sage"] {
+  --color-cream: #e5e8ce; --color-cream-2: #d3d8b6; --color-forest: #46644a; --color-forest-deep: #2a3f2c; --color-ink: #131f16; --color-gold: #a9c48f;
+  --page: #e5e8ce; --page-2: #d8dcb8; --fg: #14201a; --accent: #3f5c3d;
+  --line: rgba(63, 92, 61, 0.2); --glass-bg: rgba(255, 255, 255, 0.6); --glass-border: rgba(255, 255, 255, 0.85);
+}
+html.dark[data-palette="sage"] {
+  --page: #111a13; --page-2: #182319; --fg: #e5e8ce; --accent: #8fb08b;
+  --line: rgba(229, 232, 206, 0.14); --glass-bg: rgba(30, 45, 33, 0.82); --glass-border: rgba(255, 255, 255, 0.1);
+}
+
 @theme inline {
   --color-page: var(--page);
   --color-page-2: var(--page-2);
@@ -70,7 +99,7 @@ img { -webkit-user-drag: none; user-select: none; }
   }
   /* Dark frosted glass: always used over photos / deep green -> pair with text-cream */
   .glass {
-    background: rgba(8, 22, 15, 0.8);
+    background: color-mix(in srgb, var(--color-ink) 82%, transparent);
     backdrop-filter: blur(18px) saturate(140%);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.14);
@@ -82,7 +111,7 @@ img { -webkit-user-drag: none; user-select: none; }
     backdrop-filter: blur(18px) saturate(130%);
     -webkit-backdrop-filter: blur(18px) saturate(130%);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 14px 40px -22px rgba(13, 37, 25, 0.45);
+    box-shadow: 0 14px 40px -22px color-mix(in srgb, var(--color-forest-deep) 45%, transparent);
     color: var(--fg);
   }
   .btn {
@@ -125,7 +154,7 @@ img { -webkit-user-drag: none; user-select: none; }
 .glow-border { position: relative; }
 .glow-border::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 3;
-  background: conic-gradient(from var(--ga), transparent 0 55%, rgba(192, 149, 90, 0.2) 70%, #e8c58f 85%, transparent 100%);
+  background: conic-gradient(from var(--ga), transparent 0 55%, color-mix(in srgb, var(--color-gold) 25%, transparent) 70%, color-mix(in srgb, var(--color-gold) 65%, white) 85%, transparent 100%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude;
   opacity: 0; transition: opacity 0.4s; animation: spin-ga 3.2s linear infinite;
@@ -159,10 +188,10 @@ img { -webkit-user-drag: none; user-select: none; }
 .pattern-blueprint {
   background-color: var(--color-forest-deep);
   background-image:
-    radial-gradient(ellipse at 15% 0%, rgba(192, 149, 90, 0.14), transparent 50%),
-    radial-gradient(ellipse at 90% 100%, rgba(134, 200, 163, 0.1), transparent 50%),
-    linear-gradient(rgba(238, 229, 218, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(238, 229, 218, 0.045) 1px, transparent 1px);
+    radial-gradient(ellipse at 15% 0%, color-mix(in srgb, var(--color-gold) 15%, transparent), transparent 50%),
+    radial-gradient(ellipse at 90% 100%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
+    linear-gradient(color-mix(in srgb, var(--color-cream) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-cream) 5%, transparent) 1px, transparent 1px);
   background-size: auto, auto, 36px 36px, 36px 36px;
   background-position: 0 0, 0 0, var(--ox, 0px) var(--oy, 0px), var(--ox, 0px) var(--oy, 0px);
   transition: background-position 0.35s ease-out;
@@ -170,9 +199,9 @@ img { -webkit-user-drag: none; user-select: none; }
 /* cursor-following lit grid + glow */
 .footer-glow {
   background-image:
-    radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(192, 149, 90, 0.2), transparent 70%),
-    linear-gradient(rgba(232, 197, 143, 0.38) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232, 197, 143, 0.38) 1px, transparent 1px);
+    radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--color-gold) 22%, transparent), transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--color-gold) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-gold) 40%, transparent) 1px, transparent 1px);
   background-size: auto, 36px 36px, 36px 36px;
   background-position: 0 0, var(--ox, 0px) var(--oy, 0px), var(--ox, 0px) var(--oy, 0px);
   -webkit-mask-image: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), #000, transparent 72%);
@@ -181,12 +210,12 @@ img { -webkit-user-drag: none; user-select: none; }
 
 /* dark glass without backdrop-filter — cheap, for many cards at once */
 .glass-solid {
-  background: rgba(9, 24, 17, 0.78); border: 1px solid rgba(255, 255, 255, 0.14);
+  background: color-mix(in srgb, var(--color-ink) 80%, transparent); border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 @keyframes wa-pulse { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(1.9); opacity: 0; } }
-@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(192, 149, 90, 0.5), 0 0 30px rgba(192, 149, 90, 0.35); } 50% { box-shadow: 0 0 0 10px rgba(192, 149, 90, 0), 0 0 46px rgba(192, 149, 90, 0.55); } }
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-gold) 50%, transparent), 0 0 30px color-mix(in srgb, var(--color-gold) 35%, transparent); } 50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--color-gold) 0%, transparent), 0 0 46px color-mix(in srgb, var(--color-gold) 55%, transparent); } }
 
 :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; border-radius: 6px; }
 .skip-link { position: fixed; left: 1rem; top: -4rem; z-index: 400; background: var(--color-forest); color: var(--color-cream); padding: 0.6rem 1rem; border-radius: 999px; transition: top 0.2s; }
@@ -194,4 +223,23 @@ img { -webkit-user-drag: none; user-select: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---------- wavy section edges drawn with a MASK, so the neighbouring section shows through seamlessly ---------- */
+:root { --wave-h: 18px; }
+.wave-mask {
+  --wave-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='18' viewBox='0 0 60 18'><path d='M0 18 V9 Q15 -3 30 9 T60 9 V18 Z' fill='black'/></svg>");
+  --wave-svg-flip: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='18' viewBox='0 0 60 18'><path d='M0 0 V9 Q15 21 30 9 T60 9 V0 Z' fill='black'/></svg>");
+}
+.wave-mask.wave-top.wave-bottom {
+  -webkit-mask: var(--wave-svg) repeat-x top / 60px var(--wave-h), var(--wave-svg-flip) repeat-x bottom / 60px var(--wave-h), linear-gradient(#000 0 0) center / 100% calc(100% - var(--wave-h) * 2 + 2px) no-repeat;
+  mask: var(--wave-svg) repeat-x top / 60px var(--wave-h), var(--wave-svg-flip) repeat-x bottom / 60px var(--wave-h), linear-gradient(#000 0 0) center / 100% calc(100% - var(--wave-h) * 2 + 2px) no-repeat;
+}
+.wave-mask.wave-top:not(.wave-bottom) {
+  -webkit-mask: var(--wave-svg) repeat-x top / 60px var(--wave-h), linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--wave-h) + 2px) no-repeat;
+  mask: var(--wave-svg) repeat-x top / 60px var(--wave-h), linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--wave-h) + 2px) no-repeat;
+}
+.wave-mask.wave-bottom:not(.wave-top) {
+  -webkit-mask: var(--wave-svg-flip) repeat-x bottom / 60px var(--wave-h), linear-gradient(#000 0 0) top / 100% calc(100% - var(--wave-h) + 2px) no-repeat;
+  mask: var(--wave-svg-flip) repeat-x bottom / 60px var(--wave-h), linear-gradient(#000 0 0) top / 100% calc(100% - var(--wave-h) + 2px) no-repeat;
 }

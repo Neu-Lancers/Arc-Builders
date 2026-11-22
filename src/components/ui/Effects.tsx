@@ -89,11 +89,11 @@ export function ClickSpark({ color = '#c0955a' }: { color?: string }) {
     const fit = () => { c.width = innerWidth; c.height = innerHeight }
     fit(); addEventListener('resize', fit)
     type S = { x: number; y: number; a: number; t: number }
-    let sparks: S[] = [], raf = 0
+    let sparks: S[] = [], raf = 0, col = color
     const draw = (now: number) => {
       ctx.clearRect(0, 0, c.width, c.height)
       sparks = sparks.filter((s) => now - s.t < 550)
-      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.lineCap = 'round'
+      ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.lineCap = 'round'
       for (const s of sparks) {
         const p = (now - s.t) / 550, e = 1 - Math.pow(1 - p, 3), d = e * 28, l = (1 - p) * 9
         ctx.beginPath()
@@ -105,6 +105,7 @@ export function ClickSpark({ color = '#c0955a' }: { color?: string }) {
       if (!sparks.length) ctx.clearRect(0, 0, c.width, c.height)
     }
     const click = (e: MouseEvent) => {
+      col = getComputedStyle(document.documentElement).getPropertyValue('--color-gold').trim() || color
       const t = performance.now()
       for (let i = 0; i < 9; i++) sparks.push({ x: e.clientX, y: e.clientY, a: (Math.PI * 2 * i) / 9, t })
       if (!raf) raf = requestAnimationFrame(draw)
@@ -151,7 +152,7 @@ export function Splash() {
       {show && (
         <motion.div exit={{ y: '-100%' }} transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           className="fixed inset-0 z-[300] flex flex-col items-center justify-center bg-forest-deep text-cream">
-          <svg viewBox="0 0 120 90" className="h-28 w-36" fill="none" stroke="#c0955a" strokeWidth="2.2" strokeLinejoin="round">
+          <svg viewBox="0 0 120 90" fill="none" stroke="currentColor" className="h-28 w-36 text-gold" strokeWidth="2.2" strokeLinejoin="round">
             {['M10 82H110', 'M18 82V38L60 10l42 28v44', 'M44 82V54h32v28', 'M8 40L60 6l52 34'].map((d, i) => (
               <path key={i} d={d} pathLength={1} strokeDasharray={1} strokeDashoffset={1} style={{ animation: `draw 1.1s ${i * 0.35}s ease forwards` }} />
             ))}

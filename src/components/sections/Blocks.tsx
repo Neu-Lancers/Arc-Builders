@@ -48,7 +48,7 @@ export function StatsBand({ stats, top, bottom, title }: { stats: string[][]; to
     <WaveBand top={top} bottom={bottom} className="!py-16 md:!py-20">
       <div className="container-x">
         {title && <p className="eyebrow mb-6 text-center text-gold">— {title}</p>}
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-cream/15 lg:grid-cols-4">
+        <div className={cn('grid gap-px overflow-hidden rounded-2xl bg-cream/15', stats.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : stats.length === 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-4')}>
           {stats.map(([v, l], i) => (
             <Reveal key={l} delay={i * 0.08} className="bg-forest p-6 text-center dark:bg-forest-deep md:p-8">
               <svg viewBox="0 0 24 24" className="mx-auto h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={statIcons[i % 4]} /></svg>
@@ -152,7 +152,7 @@ export function Testimonials() {
     <CenterLoop
       items={testimonials}
       render={(t, active) => (
-        <div className={cn('flex h-full flex-col justify-between rounded-2xl p-6 transition-colors', active ? 'bg-forest text-cream shadow-xl dark:bg-[#17382a]' : 'glass-light')}>
+        <div className={cn('flex h-full flex-col justify-between rounded-2xl p-6 transition-colors', active ? 'bg-forest text-cream shadow-xl dark:bg-[color-mix(in_srgb,var(--color-forest)_75%,black)]' : 'glass-light')}>
           <span className="h-display text-5xl leading-none text-gold">“</span>
           <p className="h-display text-lg leading-snug md:text-xl">{t.text}</p>
           <div className="mt-4 flex items-center gap-3">
@@ -173,7 +173,7 @@ export function FAQ() {
   return (
     <div className="mx-auto grid max-w-5xl gap-5 lg:grid-cols-12">
       <aside className="lg:col-span-4">
-        <div className="relative overflow-hidden rounded-2xl bg-forest p-6 text-cream lg:sticky lg:top-24 dark:bg-[#12291e]">
+        <div className="relative overflow-hidden rounded-2xl bg-forest p-6 text-cream lg:sticky lg:top-24 dark:bg-[color-mix(in_srgb,var(--color-forest)_65%,black)]">
           <img src={I.lobby} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-20" />
           <div className="relative">
             <span className="grid h-11 w-11 place-items-center rounded-full bg-gold/25 text-xl text-gold">?</span>

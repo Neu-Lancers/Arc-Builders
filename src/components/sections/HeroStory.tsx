@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue 
 import { Link } from 'react-router-dom'
 import { brand } from '../../data/site'
 import { StarBorder } from '../ui/Cards'
-import { useOnScreen } from '../../hooks/hooks'
+import { useOnScreen, useThemeColors } from '../../hooks/hooks'
 import { Wave } from '../ui/Wave'
 
 const HouseScene = lazy(() => import('../three/HouseScene'))
@@ -38,6 +38,7 @@ export default function HeroStory() {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
   const prog = useRef(0) as MutableRefObject<number>
+  const theme = useThemeColors()
   const onScreen = useOnScreen(ref, '300px')
   const [step, setStep] = useState(0)
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
@@ -49,15 +50,14 @@ export default function HeroStory() {
   const introO = useTransform(scrollYProgress, [0, 0.07, 0.11], [1, 1, 0])
   const introY = useTransform(scrollYProgress, [0, 0.11], [0, -60])
   const hintO = useTransform(scrollYProgress, [0, 0.04], [1, 0])
-  const bar = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
   const waveO = useTransform(scrollYProgress, [0, 0.05, 0.12, 0.96, 1], [1, 1, 0, 0, 1])
   const endO = useTransform(scrollYProgress, [0.93, 0.99], [0, 1])
 
   return (
     <section data-hero ref={ref} className="relative h-[620vh] bg-ink md:h-[760vh]">
-      <div className="sticky top-0 h-[100svh] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,#1d4a35,#0b1a13_70%)]">
+      <div className="sticky top-0 h-[100svh] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,var(--color-forest),var(--color-ink)_70%)]">
         <div className="absolute inset-0">
-          <Suspense fallback={null}><HouseScene progress={prog} active={onScreen} /></Suspense>
+          <Suspense fallback={null}><HouseScene progress={prog} active={onScreen} theme={theme} /></Suspense>
         </div>
         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-ink/60 via-transparent to-ink/70" />
 
@@ -99,7 +99,6 @@ export default function HeroStory() {
           ))}
         </div>
         <motion.div style={{ opacity: waveO }} className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-6"><Wave at="bottom" fill="var(--page)" /></motion.div>
-        <div className="absolute inset-x-0 bottom-0 z-50 h-[3px] bg-cream/10"><motion.div style={{ width: bar }} className="h-full bg-gold" /></div>
       </div>
     </section>
   )

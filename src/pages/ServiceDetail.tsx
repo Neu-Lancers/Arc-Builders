@@ -16,17 +16,44 @@ export default function ServiceDetail() {
       <PageHero eyebrow={`Service ${s.icon}`} title={s.title} text={s.short} img={s.hero} />
 
       <Panel>
-        <div className="container-x grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
+        <div className="container-x grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* left: story + proof image */}
+          <div className="lg:col-span-5">
             <SectionHead eyebrow="Overview" title="Built around" ribbon="your brief." text={s.intro} />
-            <Reveal delay={0.2}><Link to="/contact" className="btn btn-primary mt-6">Discuss this service →</Link></Reveal>
+            <Reveal delay={0.15}>
+              <div className="relative mt-7 overflow-hidden rounded-2xl">
+                <img src={s.gallery[0]} alt="" loading="lazy" className="aspect-[16/10] w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent" />
+                <div className="glass absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-cream">
+                  <span className="text-xs font-semibold leading-snug">One accountable team, from the first sketch to the final handover.</span>
+                  <Link to="/contact" className="btn btn-light !px-4 !py-2 text-xs">Discuss →</Link>
+                </div>
+              </div>
+            </Reveal>
           </div>
-          <div className="grid content-start gap-3 sm:grid-cols-2 md:col-span-7">
-            {s.features.map((f, i) => (
-              <Reveal key={f} delay={i * 0.05}>
-                <SpotlightCard className="glass-light h-full !rounded-2xl"><div className="flex items-start gap-3 p-4"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-forest text-xs text-cream">{i + 1}</span><p className="text-sm font-semibold">{f}</p></div></SpotlightCard>
-              </Reveal>
-            ))}
+
+          {/* right: what is included */}
+          <div className="flex flex-col lg:col-span-7 lg:self-stretch">
+            <Reveal>
+              <div className="mb-4 flex items-center gap-3">
+                <p className="eyebrow text-accent">What is included</p>
+                <span className="h-px flex-1 bg-line" />
+                <span className="text-xs font-semibold text-fg/60">{s.features.length} essentials</span>
+              </div>
+            </Reveal>
+            <div className="grid flex-1 gap-3 sm:grid-cols-2 lg:grid-rows-3">
+              {s.features.map((f, i) => (
+                <Reveal key={f} delay={i * 0.05} className="h-full">
+                  <SpotlightCard className="glass-light h-full !rounded-2xl">
+                    <div className="flex h-full min-h-[84px] items-center gap-4 p-4">
+                      <span className="h-display grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-forest to-forest-deep text-lg text-gold shadow-md">{String(i + 1).padStart(2, '0')}</span>
+                      <p className="flex-1 text-[0.95rem] font-semibold leading-snug">{f}</p>
+                      <span className="text-accent opacity-0 transition duration-300 group-hover:translate-x-1 group-hover:opacity-100">→</span>
+                    </div>
+                  </SpotlightCard>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </Panel>

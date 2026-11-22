@@ -9,7 +9,7 @@ const path = (() => {
   return d + 'Z'
 })()
 
-/** Edge of a section drawn as small waves. `fill` = colour of the NEIGHBOURING section. */
+/** Solid wave strip (used under heroes, where the next section is always the page colour). */
 export function Wave({ at, fill = 'var(--page)' }: { at: 'top' | 'bottom'; fill?: string }) {
   return (
     <svg
@@ -21,15 +21,28 @@ export function Wave({ at, fill = 'var(--page)' }: { at: 'top' | 'bottom'; fill?
   )
 }
 
-/** A rectangular band with small waves along top and/or bottom. */
+/**
+ * A rectangular band with small waves along top and/or bottom.
+ * The wave is a mask on the band itself and the band overlaps its neighbours by the wave height,
+ * so whatever is above/below (photo, cream, footer…) continues straight into the wave — no filler strip.
+ * `top` / `bottom`: pass `false` to keep that edge straight. Any other value is ignored (kept for compatibility).
+ */
 export function WaveBand({
-  children, className, top = 'var(--page)', bottom = 'var(--page)', dark = true, id,
+  children, className, top, bottom, dark = true, id,
 }: { children: ReactNode; className?: string; top?: string | false; bottom?: string | false; dark?: boolean; id?: string }) {
+  const hasTop = top !== false, hasBottom = bottom !== false
   return (
-    <section id={id} className={cn('relative z-10 py-14 md:py-20', dark ? 'bg-forest text-cream dark:bg-forest-deep' : 'bg-page-2 text-fg', className)}>
-      {top !== false && <Wave at="top" fill={top} />}
+    <section
+      id={id}
+      className={cn(
+        'wave-mask relative z-20 py-14 md:py-20',
+        hasTop && 'wave-top -mt-[18px]',
+        hasBottom && 'wave-bottom -mb-[18px]',
+        dark ? 'bg-forest text-cream dark:bg-forest-deep' : 'bg-page-2 text-fg',
+        className
+      )}
+    >
       {children}
-      {bottom !== false && <Wave at="bottom" fill={bottom} />}
     </section>
   )
 }

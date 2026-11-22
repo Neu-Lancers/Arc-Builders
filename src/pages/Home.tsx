@@ -55,7 +55,20 @@ export default function Home() {
         items={projects.slice(0, 7).map((p) => ({ title: p.title, sub: `${p.loc} · ${p.area}`, meta: `${p.cat} · ${p.year}`, img: p.img, to: '/projects' }))}
       />
 
-      {/* 5 · Why us — fixed bg, glass cards */}
+      {/* 5 · Gallery on the arc */}
+      <Panel className="overflow-hidden !pb-8">
+        <div className="container-x"><SectionHead center eyebrow="Gallery" title="Spaces we have" ribbon="brought to life." /></div>
+        <div className="mt-6">
+          <ArcCarousel
+            images={gallery}
+            title="Seen. Loved. Lived in."
+            text="Hover a frame to pause the run and take a closer look."
+            cta={<Link to="/projects" className="btn btn-primary">Open full gallery →</Link>}
+          />
+        </div>
+      </Panel>
+
+      {/* 6 · Why us — fixed bg, glass cards */}
       <FixedBg src={I.lobby} className="py-14 md:py-20">
         <div className="container-x">
           <SectionHead light eyebrow="Why choose us" title="A different way" ribbon="to build." />
@@ -74,19 +87,6 @@ export default function Home() {
           </div>
         </div>
       </FixedBg>
-
-      {/* 6 · Gallery on the arc */}
-      <Panel className="overflow-hidden !pb-8">
-        <div className="container-x"><SectionHead center eyebrow="Gallery" title="Spaces we have" ribbon="brought to life." /></div>
-        <div className="mt-6">
-          <ArcCarousel
-            images={gallery}
-            title="Seen. Loved. Lived in."
-            text="Hover a frame to pause the run and take a closer look."
-            cta={<Link to="/projects" className="btn btn-primary">Open full gallery →</Link>}
-          />
-        </div>
-      </Panel>
 
       {/* 7 · Voices */}
       <Panel alt>
