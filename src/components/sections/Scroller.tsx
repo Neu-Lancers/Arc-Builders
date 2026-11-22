@@ -37,8 +37,8 @@ export function FixedBgGroup({ src, children, overlay = 'bg-forest-deep/80', cla
 
 /** Pinned background; rectangular cards glide right → left and the last card comes to rest at centre. */
 export function HorizontalCards({
-  bg, eyebrow, title, items,
-}: { bg: string; eyebrow: string; title: string; items: { title: string; sub: string; meta?: string; img: string; to?: string }[] }) {
+  bg, eyebrow, title, items, overlay, rail,
+}: { bg: string; eyebrow: string; title: string; overlay?: string; rail?: string[]; items: { title: string; sub: string; meta?: string; img: string; to?: string }[] }) {
   const outer = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
   const [range, setRange] = useState({ from: 0, to: 0 })
@@ -61,7 +61,7 @@ export function HorizontalCards({
     <section ref={outer} className="relative z-10" style={{ height: `${120 + items.length * 34}vh` }}>
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
         <motion.div className="absolute inset-0 bg-cover bg-center will-change-transform" style={{ backgroundImage: `url(${bg})`, scale: bgScale }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/65 to-ink/90" />
+        <div className={cn('absolute inset-0', overlay ?? 'bg-gradient-to-b from-ink/85 via-ink/65 to-ink/90')} />
         <div className="container-x relative mb-6 md:mb-8"><SectionHead light eyebrow={eyebrow} title={title} /></div>
         <motion.div ref={track} style={{ x }} className="relative flex w-max gap-4 will-change-transform md:gap-6">
           {items.map((it, i) => {
@@ -82,8 +82,38 @@ export function HorizontalCards({
             return it.to ? <Link key={i} to={it.to} className="shrink-0">{card}</Link> : <div key={i} className="shrink-0">{card}</div>
           })}
         </motion.div>
+        {rail && <TimelineRail labels={rail} p={scrollYProgress} />}
       </div>
     </section>
+  )
+}
+
+/** Year rail under the milestone cards: fills as you scroll, dots light up in turn. */
+function TimelineRail({ labels, p }: { labels: string[]; p: MotionValue<number> }) {
+  const fill = useTransform(p, [0.04, 0.94], ['0%', '100%'])
+  return (
+    <div className="container-x relative mt-6 md:mt-8">
+      <div className="relative">
+        <div className="absolute left-0 right-0 top-[7px] h-px bg-cream/25" />
+        <motion.div style={{ width: fill }} className="absolute left-0 top-[7px] h-px bg-gold shadow-[0_0_10px_var(--color-gold)]" />
+        <ul className="relative flex justify-between">
+          {labels.map((l, i) => (
+            <TimelineDot key={l} label={l} at={labels.length === 1 ? 0 : i / (labels.length - 1)} p={p} />
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+}
+function TimelineDot({ label, at, p }: { label: string; at: number; p: MotionValue<number> }) {
+  const t = 0.04 + at * 0.9
+  const o = useTransform(p, [t - 0.08, t], [0.45, 1])
+  const s = useTransform(p, [t - 0.08, t], [0.8, 1.25])
+  return (
+    <motion.li style={{ opacity: o }} className="flex flex-col items-center gap-2 text-cream">
+      <motion.span style={{ scale: s }} className="block h-3.5 w-3.5 rounded-full border-2 border-gold bg-ink" />
+      <span className="h-display text-lg md:text-2xl">{label}</span>
+    </motion.li>
   )
 }
 

@@ -13,6 +13,14 @@ export const brand = {
   whatsapp: '919876543210',
 }
 
+/** Site-wide feature switches. */
+export const features = {
+  /** Heroes pin in place and the next section (with its wave edge) slides up over them. Set to false to restore normal scrolling. */
+  stackedHeroes: true,
+  /** About page: refreshed middle sections (scroll-expand, mission & values, milestones). false = previous version. */
+  aboutRefresh: true,
+}
+
 export const nav = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },

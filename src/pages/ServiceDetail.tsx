@@ -5,6 +5,7 @@ import { GalleryAccordion } from '../components/sections/Gallery'
 import { Reveal, SectionHead } from '../components/ui/Reveal'
 import { SpotlightCard } from '../components/ui/Cards'
 import { services } from '../data/site'
+import StackCover from '../components/ui/StackCover'
 
 export default function ServiceDetail() {
   const { slug } = useParams()
@@ -14,6 +15,8 @@ export default function ServiceDetail() {
   return (
     <>
       <PageHero eyebrow={`Service ${s.icon}`} title={s.title} text={s.short} img={s.hero} />
+
+      <StackCover>
 
       <Panel>
         <div className="container-x grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
@@ -99,6 +102,7 @@ export default function ServiceDetail() {
         </div>
       </Panel>
       <CTA />
+      </StackCover>
     </>
   )
 }

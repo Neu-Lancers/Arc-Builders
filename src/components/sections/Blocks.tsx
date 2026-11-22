@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { partners, team, faqs, I, testimonials, brand } from '../../data/site'
+import { partners, team, faqs, I, testimonials, brand, features } from '../../data/site'
 import Breadcrumbs from '../ui/Breadcrumbs'
 import { Counter, Reveal, SectionHead, SplitHeading, Ribbon } from '../ui/Reveal'
 import { Marquee } from '../ui/Marquee'
@@ -13,11 +13,13 @@ import { CenterLoop } from './Scroller'
 /** Inner-page hero with parallax image. */
 export function PageHero({ eyebrow, title, ribbon, text, img, crumb }: { eyebrow: string; title: string; ribbon?: string; text?: string; img: string; crumb?: string }) {
   const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-  const o = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const { scrollY } = useScroll()
+  const y = useTransform(scrollY, [0, 800], ['0%', '14%'])
+  const o = useTransform(scrollY, [0, 520], [1, 0])
+  const dim = useTransform(scrollY, [0, 800], [0, 0.6])
+  const stacked = features.stackedHeroes
   return (
-    <section data-hero ref={ref} className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink pb-16 pt-28 text-cream">
+    <section data-hero ref={ref} className={cn('flex items-center overflow-hidden bg-ink pb-16 pt-28 text-cream', stacked ? 'sticky top-0 z-0 h-[100svh]' : 'relative min-h-[100svh]')}>
       <motion.img src={img} alt="" style={{ y }} className="absolute inset-0 h-[120%] w-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/55" />
       <motion.div style={{ opacity: o }} className="container-x relative">
@@ -26,7 +28,8 @@ export function PageHero({ eyebrow, title, ribbon, text, img, crumb }: { eyebrow
         {ribbon && <p className="h-display mt-1 text-[clamp(1.4rem,3vw,2.4rem)] italic"><Ribbon>{ribbon}</Ribbon></p>}
         {text && <Reveal delay={0.25}><p className="mt-4 max-w-xl text-sm text-cream/85 md:text-base">{text}</p></Reveal>}
       </motion.div>
-      <Wave at="bottom" fill="var(--page)" />
+      <motion.div style={{ opacity: dim }} className="pointer-events-none absolute inset-0 bg-ink" />
+      {!stacked && <Wave at="bottom" fill="var(--page)" />}
     </section>
   )
 }
@@ -92,16 +95,16 @@ export function Partners() {
   )
 }
 
-export function CEOMessage({ top = "var(--page)", bottom = "var(--page)" }: { top?: string; bottom?: string }) {
+export function CEOMessage({ top = "var(--page)", bottom = "var(--page)", light }: { top?: string; bottom?: string; light?: boolean }) {
   return (
-    <WaveBand top={top} bottom={bottom} className="!py-16 md:!py-20">
+    <WaveBand top={top} bottom={bottom} dark={!light} className="!py-16 md:!py-20">
       <div className="container-x grid items-center gap-10 md:grid-cols-12">
         <Reveal className="md:col-span-4">
           <TiltedCard max={6}>
             <div className="relative mx-auto max-w-xs">
               <div className="absolute -inset-2 rotate-3 rounded-2xl border border-gold/60" />
               <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="CEO" className="relative aspect-[4/5] w-full rounded-2xl object-cover" />
-              <div className="glass absolute -bottom-4 -right-3 rounded-xl px-4 py-2.5">
+              <div className="glass absolute -bottom-4 -right-3 rounded-xl px-4 py-2.5 text-cream">
                 <p className="h-display text-lg">Arjun Raghavan</p>
                 <p className="eyebrow !text-[0.6rem] text-gold">Founder &amp; CEO</p>
               </div>
@@ -109,11 +112,11 @@ export function CEOMessage({ top = "var(--page)", bottom = "var(--page)" }: { to
           </TiltedCard>
         </Reveal>
         <div className="md:col-span-8">
-          <p className="eyebrow text-gold">— A word from our CEO</p>
-          <span className="h-display mt-3 block h-9 text-6xl leading-none text-gold/70">“</span>
-          <SplitHeading text="We do not build for a handover date. We build for the decades that follow." className="text-[clamp(1.6rem,3.4vw,2.6rem)]" />
+          <p className={cn("eyebrow", light ? "text-accent" : "text-gold")}>— A word from our CEO</p>
+          <span className={cn("h-display mt-3 block h-9 text-6xl leading-none", light ? "text-gold" : "text-gold/70")}>“</span>
+          <SplitHeading text="We do not build for a handover date. We build for the decades that follow." className={cn("text-[clamp(1.6rem,3.4vw,2.6rem)]", light && "text-accent")} />
           <Reveal delay={0.2}>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-cream/80 md:text-base">
+            <p className={cn("mt-4 max-w-2xl text-sm leading-relaxed md:text-base", light ? "text-fg/75" : "text-cream/80")}>
               A building is a promise — to the family who will grow up in it, the team who will work in it, and the city around it.
               That is why design, engineering and craft sit under one roof, and every client has a single person accountable from day one.
             </p>
@@ -237,7 +240,7 @@ export function CTA({ title = 'Let us build something remarkable.', top = 'var(-
 }
 
 /** Scroll-expand media: small rounded frame grows to fullscreen; headline sits above and below it. */
-export function ScrollExpand({ img, caption }: { img: string; caption: string }) {
+export function ScrollExpand({ img, caption, chips }: { img: string; caption: string; chips?: string[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
   const w = useTransform(scrollYProgress, [0, 0.7], ['46vw', '100vw'])
@@ -254,8 +257,11 @@ export function ScrollExpand({ img, caption }: { img: string; caption: string })
         <motion.div style={{ x: lx, opacity: words }} className={word}>Craft</motion.div>
         <motion.div style={{ width: w, height: h, borderRadius: r }} className="relative z-10 shrink-0 overflow-hidden shadow-2xl">
           <img src={img} alt="" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-ink/40" />
-          <motion.p style={{ opacity: t }} className="h-display absolute inset-x-0 bottom-[12%] mx-auto max-w-2xl px-6 text-center text-2xl text-cream md:text-4xl">{caption}</motion.p>
+          <div className={chips ? 'absolute inset-0 bg-gradient-to-t from-forest-deep/85 via-forest-deep/25 to-transparent' : 'absolute inset-0 bg-ink/40'} />
+          <motion.div style={{ opacity: t }} className="absolute inset-x-0 bottom-[10%] mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 text-center">
+            <p className="h-display text-2xl text-cream md:text-4xl">{caption}</p>
+            {chips && <div className="flex flex-wrap justify-center gap-2">{chips.map((c) => <span key={c} className="glass rounded-full px-3.5 py-1.5 text-xs font-semibold text-cream">{c}</span>)}</div>}
+          </motion.div>
         </motion.div>
         <motion.div style={{ x: rx, opacity: words }} className={cn(word, 'italic')}>&amp; Care</motion.div>
       </div>

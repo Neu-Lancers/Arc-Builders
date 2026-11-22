@@ -1,9 +1,9 @@
 import { lazy, Suspense, useRef, useState, type MutableRefObject } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent, type MotionValue } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { brand } from '../../data/site'
+import { brand, features } from '../../data/site'
 import { StarBorder } from '../ui/Cards'
-import { useOnScreen, useThemeColors } from '../../hooks/hooks'
+import { useMedia, useOnScreen, useThemeColors } from '../../hooks/hooks'
 import { Wave } from '../ui/Wave'
 
 const HouseScene = lazy(() => import('../three/HouseScene'))
@@ -36,7 +36,12 @@ function Caption({ at, tag, title, text, p }: (typeof chapters)[number] & { p: M
 
 export default function HeroStory() {
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
+  const stacked = features.stackedHeroes
+  const md = useMedia('(min-width: 768px)')
+  const { scrollYProgress: raw } = useScroll({ target: ref, offset: ['start start', 'end end'] })
+  // stacked: the section is one screen taller (room for the next section to slide over); keep walkthrough pace identical
+  const f = stacked ? (md ? 660 / 760 : 520 / 620) : 1
+  const scrollYProgress = useTransform(raw, [0, f], [0, 1])
   const prog = useRef(0) as MutableRefObject<number>
   const theme = useThemeColors()
   const onScreen = useOnScreen(ref, '300px')
@@ -50,11 +55,11 @@ export default function HeroStory() {
   const introO = useTransform(scrollYProgress, [0, 0.07, 0.11], [1, 1, 0])
   const introY = useTransform(scrollYProgress, [0, 0.11], [0, -60])
   const hintO = useTransform(scrollYProgress, [0, 0.04], [1, 0])
-  const waveO = useTransform(scrollYProgress, [0, 0.05, 0.12, 0.96, 1], [1, 1, 0, 0, 1])
+  const waveO = useTransform(scrollYProgress, [0, 0.05, 0.12, 0.96, 1], [1, 1, 0, 0, stacked ? 0 : 1])
   const endO = useTransform(scrollYProgress, [0.93, 0.99], [0, 1])
 
   return (
-    <section data-hero ref={ref} className="relative h-[620vh] bg-ink md:h-[760vh]">
+    <section data-hero ref={ref} className={`relative bg-ink ${stacked ? 'h-[720vh] md:h-[860vh]' : 'h-[620vh] md:h-[760vh]'}`}>
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,var(--color-forest),var(--color-ink)_70%)]">
         <div className="absolute inset-0">
           <Suspense fallback={null}><HouseScene progress={prog} active={onScreen} theme={theme} /></Suspense>

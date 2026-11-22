@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 
 /** Small repeating wave path (filled region above the wave line). */
-const path = (() => {
+export const wavePath = (() => {
   const period = 60, w = 1440
   let d = `M0 0H${w}V16`
   for (let x = w; x > 0; x -= period) d += ` q-${period / 4} -14 -${period / 2} 0 t-${period / 2} 0`
@@ -16,7 +16,7 @@ export function Wave({ at, fill = 'var(--page)' }: { at: 'top' | 'bottom'; fill?
       aria-hidden viewBox="0 0 1440 30" preserveAspectRatio="none"
       className={cn('pointer-events-none absolute left-0 z-[2] block h-4 w-full md:h-5', at === 'top' ? 'top-[-1px]' : 'bottom-[-1px] -scale-y-100')}
     >
-      <path d={path} style={{ fill }} />
+      <path d={wavePath} style={{ fill }} />
     </svg>
   )
 }

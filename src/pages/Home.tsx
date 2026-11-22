@@ -6,6 +6,7 @@ import { ArcCarousel, FixedBg, HorizontalCards, OrbitImages, ScrollStack } from 
 import { Reveal, SectionHead } from '../components/ui/Reveal'
 import { SpotlightCard } from '../components/ui/Cards'
 import { I, gallery, projects, services } from '../data/site'
+import StackCover from '../components/ui/StackCover'
 
 const why = [
   ['Single accountability', 'Design, build and finish under one contract and one lead.'],
@@ -18,6 +19,8 @@ export default function Home() {
   return (
     <>
       <HeroStory />
+
+      <StackCover pull>
 
       {/* 1 · Who we are */}
       <Panel className="!pb-6">
@@ -106,6 +109,7 @@ export default function Home() {
         </div>
       </Panel>
       <CTA />
+      </StackCover>
     </>
   )
 }

@@ -7,6 +7,7 @@ import { GlareHover, TiltedCard } from '../components/ui/Cards'
 import { WaveBand } from '../components/ui/Wave'
 import { cn } from '../lib/utils'
 import { I, gallery, projects } from '../data/site'
+import StackCover from '../components/ui/StackCover'
 
 export default function Projects() {
   const cats = ['All', ...Array.from(new Set(projects.map((p) => p.cat)))]
@@ -15,6 +16,8 @@ export default function Projects() {
   return (
     <>
       <PageHero eyebrow="Projects" title="A portfolio of" ribbon="places people love." text="Villas, towers, hotels and homes — delivered across four states." img={I.skyline} />
+
+      <StackCover>
       <Panel>
         <div className="container-x">
           <div className="mb-8 flex flex-wrap justify-center gap-2">
@@ -68,6 +71,7 @@ export default function Projects() {
       </Panel>
       <Partners />
       <CTA />
+      </StackCover>
     </>
   )
 }

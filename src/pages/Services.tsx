@@ -3,6 +3,7 @@ import { CTA, FAQ, PageHero, Panel, Partners, ServiceCard, StatsBand } from '../
 import { ArcCarousel, FixedBg, HorizontalCards } from '../components/sections/Scroller'
 import { Reveal, SectionHead } from '../components/ui/Reveal'
 import { I, services } from '../data/site'
+import StackCover from '../components/ui/StackCover'
 
 const steps = [['Consult', 'We listen, visit the site and understand your goals.'], ['Design', 'Concept, drawings, 3D walkthroughs and approvals.'], ['Build', 'Phased execution with weekly reporting.'], ['Handover', 'Quality audit, snag-free delivery and warranty.']]
 
@@ -10,6 +11,8 @@ export default function Services() {
   return (
     <>
       <PageHero eyebrow="Services" title="End-to-end" ribbon="design & construction." text="Six dedicated disciplines — each with its own specialists, process and portfolio." img={I.tower2} />
+
+      <StackCover>
 
       <Panel>
         <div className="container-x">
@@ -55,6 +58,7 @@ export default function Services() {
       <Partners />
       <Panel alt><div className="container-x"><SectionHead center eyebrow="FAQ" title="Good" ribbon="to know." /><div className="mt-8"><FAQ /></div></div></Panel>
       <CTA top="var(--page-2)" />
+      </StackCover>
     </>
   )
 }

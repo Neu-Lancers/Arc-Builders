@@ -7,6 +7,7 @@ import { FixedBg } from '../components/sections/Scroller'
 import { cn } from '../lib/utils'
 import { sounds } from '../lib/sound'
 import { brand, I, services } from '../data/site'
+import StackCover from '../components/ui/StackCover'
 
 const field = 'w-full rounded-xl border border-line bg-page/70 px-4 py-3 text-sm text-fg outline-none transition placeholder:text-fg/45 focus:border-accent focus:ring-4 focus:ring-accent/15'
 
@@ -48,6 +49,8 @@ export default function Contact() {
   return (
     <>
       <PageHero eyebrow="Contact" title="Let us talk about" ribbon="your project." text="Tell us about your plot, your plans and your timeline. We reply within one working day." img={I.lobby} />
+
+      <StackCover>
 
       <Panel>
         <div className="container-x">
@@ -157,6 +160,7 @@ export default function Contact() {
 
       <Panel><div className="container-x"><SectionHead center eyebrow="Reviews" title="Trusted by" ribbon="homeowners & developers." /><div className="mt-8"><Testimonials /></div></div></Panel>
       <Panel alt><div className="container-x"><SectionHead center eyebrow="FAQ" title="Before you" ribbon="reach out." /><div className="mt-8"><FAQ /></div></div></Panel>
+      </StackCover>
     </>
   )
 }

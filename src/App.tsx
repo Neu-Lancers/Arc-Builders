@@ -33,7 +33,7 @@ export default function App() {
       <ClickSound />
       <WhatsAppFloat />
       <Navbar />
-      <motion.main id="main" key={loc.pathname} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+      <motion.main id="main" className="flow-root" key={loc.pathname} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <Suspense fallback={<div className="grid h-screen place-items-center bg-page text-accent">Loading…</div>}>
           <Routes location={loc}>
             <Route path="/" element={<Home />} />

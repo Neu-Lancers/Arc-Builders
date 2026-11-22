@@ -37,8 +37,9 @@ export default function Navbar() {
   useEffect(() => {
     // pill while a hero is on screen; once the hero is behind us the header becomes a full-width fixed bar
     const f = () => {
+      const end = document.querySelector('[data-hero-end]')
       const h = document.querySelector('[data-hero]')
-      setScrolled(h ? h.getBoundingClientRect().bottom < 90 : scrollY > 40)
+      setScrolled(end ? end.getBoundingClientRect().top < 90 : h ? h.getBoundingClientRect().bottom < 90 : scrollY > 40)
     }
     f(); const t = setTimeout(f, 150)
     addEventListener('scroll', f, { passive: true })
