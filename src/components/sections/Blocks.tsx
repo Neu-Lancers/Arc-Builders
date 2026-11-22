@@ -21,7 +21,7 @@ export function PageHero({ eyebrow, title, ribbon, text, img, crumb }: { eyebrow
   return (
     <section data-hero ref={ref} className={cn('flex items-center overflow-hidden bg-ink pb-16 pt-28 text-cream', stacked ? 'sticky top-0 z-0 h-[100svh]' : 'relative min-h-[100svh]')}>
       <motion.img src={img} alt="" style={{ y }} className="absolute inset-0 h-[120%] w-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/55" />
+      <div className="img-overlay absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/55" />
       <motion.div style={{ opacity: o }} className="container-x relative">
         <Breadcrumbs last={crumb} />
         <SplitHeading as="h1" text={title} className="mt-3 max-w-3xl text-[clamp(2.2rem,5.6vw,4.4rem)]" />
@@ -257,7 +257,7 @@ export function ScrollExpand({ img, caption, chips }: { img: string; caption: st
         <motion.div style={{ x: lx, opacity: words }} className={word}>Craft</motion.div>
         <motion.div style={{ width: w, height: h, borderRadius: r }} className="relative z-10 shrink-0 overflow-hidden shadow-2xl">
           <img src={img} alt="" className="h-full w-full object-cover" />
-          <div className={chips ? 'absolute inset-0 bg-gradient-to-t from-forest-deep/85 via-forest-deep/25 to-transparent' : 'absolute inset-0 bg-ink/40'} />
+          <div className={chips ? 'img-overlay absolute inset-0 bg-gradient-to-t from-forest-deep/85 via-forest-deep/25 to-transparent' : 'img-overlay absolute inset-0 bg-ink/40'} />
           <motion.div style={{ opacity: t }} className="absolute inset-x-0 bottom-[10%] mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 text-center">
             <p className="h-display text-2xl text-cream md:text-4xl">{caption}</p>
             {chips && <div className="flex flex-wrap justify-center gap-2">{chips.map((c) => <span key={c} className="glass rounded-full px-3.5 py-1.5 text-xs font-semibold text-cream">{c}</span>)}</div>}

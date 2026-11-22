@@ -14,7 +14,7 @@ export function FixedBg({ src, children, overlay = 'bg-forest-deep/80', classNam
       <div className="pointer-events-none absolute inset-0">
         <div className="sticky top-0 h-[100svh] w-full bg-cover bg-center will-change-transform" style={{ backgroundImage: `url(${src})` }} />
       </div>
-      <div className={cn('absolute inset-0', overlay)} />
+      <div className={cn('img-overlay absolute inset-0', overlay)} />
       <div className="relative">{children}</div>
     </section>
   )
@@ -27,7 +27,7 @@ export function FixedBgGroup({ src, children, overlay = 'bg-forest-deep/80', cla
     <div className={cn('relative z-10 [overflow:clip]', className)}>
       <div className="pointer-events-none absolute inset-0">
         <div className="sticky top-0 h-[100svh] w-full bg-cover bg-center will-change-transform" style={{ backgroundImage: `url(${src})` }}>
-          <div className={cn('absolute inset-0', overlay)} />
+          <div className={cn('img-overlay absolute inset-0', overlay)} />
         </div>
       </div>
       <div className="relative">{children}</div>
@@ -61,7 +61,7 @@ export function HorizontalCards({
     <section ref={outer} className="relative z-10" style={{ height: `${120 + items.length * 34}vh` }}>
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
         <motion.div className="absolute inset-0 bg-cover bg-center will-change-transform" style={{ backgroundImage: `url(${bg})`, scale: bgScale }} />
-        <div className={cn('absolute inset-0', overlay ?? 'bg-gradient-to-b from-ink/85 via-ink/65 to-ink/90')} />
+        <div className={cn('img-overlay absolute inset-0', overlay ?? 'bg-gradient-to-b from-ink/85 via-ink/65 to-ink/90')} />
         <div className="container-x relative mb-6 md:mb-8"><SectionHead light eyebrow={eyebrow} title={title} /></div>
         <motion.div ref={track} style={{ x }} className="relative flex w-max gap-4 will-change-transform md:gap-6">
           {items.map((it, i) => {

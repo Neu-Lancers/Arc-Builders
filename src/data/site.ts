@@ -19,6 +19,8 @@ export const features = {
   stackedHeroes: true,
   /** About page: refreshed middle sections (scroll-expand, mission & values, milestones). false = previous version. */
   aboutRefresh: true,
+  /** Light mode only: photo-section overlays are lighter (dark mode untouched). false = previous, darker look. Tune the strength via --soft-overlay in index.css. */
+  softOverlaysInLight: true,
 }
 
 export const nav = [

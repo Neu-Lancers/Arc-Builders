@@ -47,7 +47,7 @@ export default function Projects() {
 
       <WaveBand className="overflow-hidden !py-16 md:!py-24">
         <GridMotion images={gallery.map((g) => g.img)} />
-        <div className="absolute inset-0 bg-forest-deep/80" />
+        <div className="img-overlay absolute inset-0 bg-forest-deep/80" />
         <div className="container-x relative text-center">
           <SectionHead light center eyebrow="Immersive" title="Every angle," ribbon="every detail." />
           <Link to="/contact" className="btn btn-light mt-6">Start yours →</Link>

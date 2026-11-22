@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import { ClickSound, ClickSpark, ScrollProgress, SmoothScroll, Splash, WhatsAppFloat } from './components/ui/Effects'
-import { brand, services } from './data/site'
+import { brand, features, services } from './data/site'
 import Home from './pages/Home'
 
 const About = lazy(() => import('./pages/About'))
@@ -18,6 +18,10 @@ const titles: Record<string, string> = { '/': brand.tagline, '/about': 'About us
 
 export default function App() {
   const loc = useLocation()
+  useEffect(() => {
+    if (features.softOverlaysInLight) document.documentElement.setAttribute('data-soft-overlay', '')
+    else document.documentElement.removeAttribute('data-soft-overlay')
+  }, [])
   useEffect(() => {
     const slug = loc.pathname.startsWith('/services/') ? services.find((s) => loc.pathname.endsWith(s.slug))?.title : undefined
     const t = slug ?? titles[loc.pathname] ?? 'Page not found'

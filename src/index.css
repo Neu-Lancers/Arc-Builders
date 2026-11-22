@@ -243,3 +243,8 @@ img { -webkit-user-drag: none; user-select: none; }
   -webkit-mask: var(--wave-svg-flip) repeat-x bottom / 60px var(--wave-h), linear-gradient(#000 0 0) top / 100% calc(100% - var(--wave-h) + 2px) no-repeat;
   mask: var(--wave-svg-flip) repeat-x bottom / 60px var(--wave-h), linear-gradient(#000 0 0) top / 100% calc(100% - var(--wave-h) + 2px) no-repeat;
 }
+
+/* ---------- lighter photo overlays in LIGHT mode (switch: features.softOverlaysInLight) ---------- */
+:root { --soft-overlay: 0.58; }
+html[data-soft-overlay]:not(.dark) .img-overlay { opacity: var(--soft-overlay); }
+html[data-soft-overlay]:not(.dark) [data-hero] .container-x h1, html[data-soft-overlay]:not(.dark) [data-hero] .container-x p:not(.eyebrow) { text-shadow: 0 1px 14px rgba(0, 0, 0, 0.4); }

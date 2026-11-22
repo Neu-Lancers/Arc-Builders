@@ -15,7 +15,7 @@ export function GalleryAccordion({ items }: { items: { img: string; label: strin
           className="relative min-w-0 flex-1 overflow-hidden rounded-xl text-left md:rounded-2xl"
         >
           <img src={it.img} alt={it.label} loading="lazy" className={cn('absolute inset-0 h-full w-full object-cover transition-transform duration-700', active === i ? 'scale-100' : 'scale-110')} />
-          <div className={cn('absolute inset-0 transition-colors duration-500', active === i ? 'bg-gradient-to-t from-ink/85 via-transparent' : 'bg-ink/45')} />
+          <div className={cn('img-overlay absolute inset-0 transition-colors duration-500', active === i ? 'bg-gradient-to-t from-ink/85 via-transparent' : 'bg-ink/45')} />
           <span className={cn('absolute bottom-4 left-3 whitespace-nowrap text-cream transition-all duration-500', active === i ? 'h-display text-xl md:text-3xl' : 'eyebrow origin-bottom-left -rotate-90 translate-x-5 !text-[0.6rem]')}>
             {it.label}
           </span>
